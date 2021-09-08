@@ -1,0 +1,47 @@
+# static configuration
+global:
+  checkNewVersion: true
+  sendAnonymousUsage: true
+
+log:
+  level: DEBUG
+
+providers:
+  docker:
+    watch: true
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: true
+  file:
+    watch: true
+    directory: /etc/traefik/dynamic-configuration 
+
+api:
+  dashboard: true 
+  insecure: true
+
+metrics:
+  prometheus:
+    entrypoint: metrics
+    addEntryPointsLabels: true
+
+accessLog:
+  filePath: "/var/log/traefik/access.log"
+  format: json
+  fields:
+    defaultMode: keep
+    names:
+      ClientUsername: drop
+    headers:
+      defaultMode: keep
+      names:
+          User-Agent: redact
+          Authorization: drop
+          Content-Type: keep
+
+entryPoints:
+  minio:
+    address: ":8090"
+  metrics:
+    address: ":9100"
+  internal-apps:
+    address: ":8081"

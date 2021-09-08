@@ -1,0 +1,43 @@
+# dynamic configuration
+http:
+  routers:
+    router-app-server:
+      rule: "Host(`br.minio.localhost`)"
+      service: lb-minio-br
+      tls: false
+      entryPoints: 
+        - minio
+
+    router-minio-us:
+      rule: "Host(`us.minio.localhost`)"
+      service: lb-minio-us
+      tls: false
+      entryPoints: 
+        - minio
+
+  services:
+    lb-minio-br:
+      loadBalancer:
+        servers:
+          - url: "http://minio-br-1:9001/"
+          - url: "http://minio-br-2:9001/"
+          - url: "http://minio-br-3:9001/"
+          - url: "http://minio-br-4:9001/"
+          - url: "http://minio-br-5:9001/"
+        healthCheck:
+          path: /health
+          interval: 10s
+          timeout: 1s
+
+    lb-minio-us:
+      loadBalancer:
+        servers:
+          - url: "http://minio-us-1:9001/"
+          - url: "http://minio-us-2:9001/"
+          - url: "http://minio-us-3:9001/"
+          - url: "http://minio-us-4:9001/"
+          - url: "http://minio-us-5:9001/"
+        healthCheck:
+          path: /health
+          interval: 10s
+          timeout: 1s

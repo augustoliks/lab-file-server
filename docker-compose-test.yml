@@ -1,0 +1,22 @@
+version: "3.7"
+
+services: 
+  minio-client-us:
+    container_name: minio-client-us
+    build: 
+      context: app-minio-client
+    environment: 
+      - MINIO_ACCESS_KEY=adminadmin
+      - MINIO_SECRET_KEY=secretsecret
+      - MINIO_ADDRESS=http://minio.us.localhost:8090
+    network_mode: host
+
+  minio-client-br:
+    container_name: minio-client-br
+    build: 
+      context: app-minio-client
+    environment: 
+      - MINIO_ACCESS_KEY=adminadmin
+      - MINIO_SECRET_KEY=secretsecret
+      - MINIO_ADDRESS=http://minio.br.localhost:8090
+    network_mode: host
