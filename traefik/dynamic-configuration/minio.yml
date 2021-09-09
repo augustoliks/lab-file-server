@@ -1,59 +1,41 @@
 # dynamic configuration
-http:
-  routers:
-    router-minio-br:
-      rule: "Host(`minio.br.localhost`)"
-      service: lb-minio-br
-      tls: false
-      entryPoints: 
-        - minio
+# http:
+#   routers:
+#     router-minio-br:
+#       rule: "Host(`minio.br.localhost`)"
+#       service: lb-minio-br
+#       tls: false
+#       entryPoints: 
+#         - minio
 
-    router-minio-us:
-      rule: "Host(`minio.us.localhost`) || Host(`minio.us.xxx`)"
-      service: lb-minio-us
-      tls: false
-      entryPoints: 
-        - minio
+#     router-minio-us:
+#       rule: "Host(`minio.us.localhost`) || Host(`minio.us.xxx`)"
+#       service: lb-minio-us
+#       tls: false
+#       entryPoints: 
+#         - minio
 
-  services:
-    lb-minio-br:
-      loadBalancer:
-        servers:
-          - url: "http://minio-br-1:9000/"
-          - url: "http://minio-br-2:9000/"
-          - url: "http://minio-br-3:9000/"
-          - url: "http://minio-br-4:9000/"
-          - url: "http://minio-br-5:9000/"
-        passHostHeader: true
+#   services:
+#     lb-minio-br:
+#       loadBalancer:
+#         servers:
+#           - url: "http://minio-br-1:9000/"
+#           - url: "http://minio-br-2:9000/"
+#           - url: "http://minio-br-3:9000/"
+#           - url: "http://minio-br-4:9000/"
+#           - url: "http://minio-br-5:9000/"
 
-    lb-minio-us:
-      loadBalancer:
-        servers:
-          - url: "http://minio-us-1:9000/"
-          - url: "http://minio-us-2:9000/"
-          - url: "http://minio-us-3:9000/"
-          - url: "http://minio-us-4:9000/"
-          - url: "http://minio-us-5:9000/"
-        passHostHeader: true
-        # healthCheck:
-        #   path: /health
-        #   interval: 10s
-        #   timeout: 1s
+#     lb-minio-us:
+#       loadBalancer:
+#         servers:
+#           - url: "http://minio-us-1:9000/"
+#           - url: "http://minio-us-2:9000/"
+#           - url: "http://minio-us-3:9000/"
+#           - url: "http://minio-us-4:9000/"
+#           - url: "http://minio-us-5:9000/"
+#         passHostHeader: true
+#         healthCheck:
+#           path: /health
+#           interval: 10s
+#           timeout: 1s
 
-    # lb-minio-br:
-    #   loadBalancer:
-    #     servers:
-    #       - address: "minio-br-1:9000"
-    #       - address: "minio-br-2:9000"
-    #       - address: "minio-br-3:9000"
-    #       - address: "minio-br-4:9000"
-    #       - address: "minio-br-5:9000"
-
-    # lb-minio-us:
-    #   loadBalancer:
-    #     servers:
-    #       - address: "minio-us-1:9000"
-    #       - address: "minio-us-2:9000"
-    #       - address: "minio-us-3:9000"
-    #       - address: "minio-us-4:9000"
-    #       - address: "minio-us-5:9000"

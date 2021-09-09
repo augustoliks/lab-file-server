@@ -8,46 +8,24 @@ http:
         - internal-apps
 
     grafana:
-      rule: "Host(`grafana.xxx`)"
+      rule: "Host(`grafana.localhost`)"
+      tls: false
       service: lb-grafana
-      tls: false
       entryPoints:
         - internal-apps
+      middlewares:
+        - "auth"
 
-    console-us-minio:
-      rule: "Host(`console.minio.us.localhost`)"
-      service: lb-console-us-minio
-      tls: false
-      entryPoints:
-        - internal-apps
-
-    console-minio-br:
-      rule: "Host(`console.minio.br.localhost`)"
-      service: lb-console-minio-br
-      tls: false
-      entryPoints:
-        - internal-apps
+  middlewares:
+    auth:
+      forwardAuth:
+        address: "http://auth-server:8090/"
+        authResponseHeaders:
+          - "X-Auth-User"
+          - "X-Secret"
 
   services:
     lb-grafana:
       loadBalancer:
         servers:
           - url: "http://grafana:3000/"
-
-    lb-console-us-minio:
-      loadBalancer:
-        servers:
-          - url: "http://minio-us-1:9001/"
-          - url: "http://minio-us-2:9001/"
-          - url: "http://minio-us-3:9001/"
-          - url: "http://minio-us-4:9001/"
-          - url: "http://minio-us-5:9001/"
-
-    lb-console-minio-br:
-      loadBalancer:
-        servers:
-          - url: "http://minio-br-1:9001/"
-          - url: "http://minio-br-2:9001/"
-          - url: "http://minio-br-3:9001/"
-          - url: "http://minio-br-4:9001/"
-          - url: "http://minio-br-5:9001/"

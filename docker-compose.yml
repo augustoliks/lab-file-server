@@ -30,71 +30,13 @@ services:
       - 8081:8081
       - 8090:8090
 
-### minio br
+  auth-server:
+    container_name: auth-server
+    build: 
+      context: auth-server
+    expose: 
+      - 8090
 
-  minio-br-1:
-    image: minio/minio
-    container_name: minio-br-1
-    restart: always
-    command: server /data --console-address ":9001"
-    volumes:
-      - minio-br-storage:/data
-    env_file: 
-      - env-minio-br.env
-    expose:
-      - 9000
-      - 9001
-
-  minio-br-2:
-    extends: minio-br-1
-    container_name: minio-br-2
-
-  minio-br-3:
-    extends: minio-br-1
-    container_name: minio-br-3
-
-  minio-br-4:
-    extends: minio-br-1
-    container_name: minio-br-4
-
-  minio-br-5:
-    extends: minio-br-1
-    container_name: minio-br-5
-
-### minio us
-
-  minio-us-1:
-    image: minio/minio
-    container_name: minio-us-1
-    restart: always
-    command: server /data --console-address ":9001"
-    volumes:
-      - minio-us-storage:/data
-    env_file: 
-      - env-minio-us.env
-    expose:
-      - 9000
-      - 9001
-
-  minio-us-2:
-    extends: minio-us-1
-    container_name: minio-us-2
-
-  minio-us-3:
-    extends: minio-us-1
-    container_name: minio-us-3
-
-  minio-us-4:
-    extends: minio-us-1
-    container_name: minio-us-4
-
-  minio-us-5:
-    extends: minio-us-1
-    container_name: minio-us-5
-    ports:
-      - 9000:9000
-
-### auxiliares
   promtail:
     image: grafana/promtail:2.1.0
     container_name: promtail
@@ -163,3 +105,20 @@ services:
       # - ./grafana/assets/icon.svg:/usr/share/grafana/public/img/grafana_icon.svg:ro
     expose: 
       - 3000
+
+  # minio-br-1:
+  #   image: minio/minio
+  #   container_name: minio-br-1
+  #   restart: always
+  #   command: server /data --console-address ":9001"
+  #   volumes:
+  #     - minio-br-storage:/data
+  #   env_file: 
+  #     - env-minio-br.env
+  #   expose:
+  #     - 9000
+  #     - 9001
+
+  # minio-br-2:
+  #   extends: minio-br-1
+  #   container_name: minio-br-2
