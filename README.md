@@ -1,2 +1,2 @@
-# observabilty-file-server
-Web Server files, created for trainning observability and load balancer skills
+# lab-file-server
+studies | file server created for training observability and load-balancer skills
